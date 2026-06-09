@@ -132,4 +132,3 @@ main().catch(err => {
   console.error("ERRO:", err);
   process.exit(1);
 });
-Concluído
