@@ -1,8 +1,3 @@
-bash
-
-cat /home/claude/agencia-agentes/agents/01-prospectar.js
-Saída
-
 // Agente 1 — Prospecção
 // Roda todo dia às 08h via GitHub Actions
 // Busca empresas sem site no Google Maps e salva no Supabase
