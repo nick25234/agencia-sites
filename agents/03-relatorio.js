@@ -168,13 +168,3 @@ main().catch(err => {
   console.error("ERRO:", err);
   process.exit(1);
 });
-Concluído
-4. Clica em "Commit changes..." e confirma.
-
-Me avisa quando feito!
-
-
-
-
-
-
