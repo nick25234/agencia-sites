@@ -1,8 +1,3 @@
-bash
-
-cat /home/claude/agencia-agentes/agents/03-relatorio.js
-Saída
-
 // Agente 3 — Relatório Diário
 // Roda todo dia às 10h via GitHub Actions
 // Envia lista de leads + sites por WhatsApp e Email
