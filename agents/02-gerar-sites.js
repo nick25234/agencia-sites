@@ -236,14 +236,3 @@ main().catch(err => {
   console.error("ERRO:", err);
   process.exit(1);
 });
-Concluído
-4. Clica em "Commit changes..." e confirma.
-
-Me avisa quando feito!
-
-
-
-
-
-
-Claude é uma IA e pode cometer erros. Por favor, verifique as respost
