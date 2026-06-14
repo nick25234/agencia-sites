@@ -44,12 +44,13 @@ Tel: ${lead.telefone || ""}. Endereço: ${lead.endereco || ""}. ${lead.avaliacao
 REGRAS:
 - HTML+CSS+JS em um único arquivo
 - Design moderno e responsivo para o nicho ${lead.nicho}
-- Seções: hero com CTA, serviços, sobre, contato, footer
+- Seções: hero com CTA, serviços (3 cards), contato e footer
 - Botão WhatsApp flutuante: https://wa.me/55${wpp}
-- Cores e fontes Google Fonts adequadas ao nicho
-- Animações CSS suaves na entrada
+- CSS simples e direto, sem animações complexas
+- Fontes do Google Fonts adequadas ao nicho
 - Use o nome real da empresa em todo o site
 - Meta tags SEO com nome e cidade
+- IMPORTANTE: o HTML deve ser curto e completo, terminando com </html>
 - RETORNE APENAS O CÓDIGO HTML, sem markdown, sem backticks`;
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -60,7 +61,7 @@ REGRAS:
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-     model: "claude-haiku-4-5-20251001",
+     model: "claude-sonnet-4-6",
 max_tokens: 6000,
       messages: [{ role: "user", content: prompt }],
     }),
