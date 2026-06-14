@@ -44,6 +44,7 @@ jobs:
   agente-geracao:
     name: 'Agente 2 — Geração de Sites'
     runs-on: ubuntu-latest
+    needs: agente-prospeccao
     if: |
       github.event_name == 'workflow_dispatch' && (github.event.inputs.agente == 'todos' || github.event.inputs.agente == 'gerar-sites') ||
       (github.event_name == 'schedule' && github.event.schedule == '0 12 * * *')
@@ -63,6 +64,7 @@ jobs:
   agente-relatorio:
     name: 'Agente 3 — Relatório'
     runs-on: ubuntu-latest
+    needs: agente-geracao
     if: |
       github.event_name == 'workflow_dispatch' && (github.event.inputs.agente == 'todos' || github.event.inputs.agente == 'relatorio') ||
       (github.event_name == 'schedule' && github.event.schedule == '0 13 * * *')
