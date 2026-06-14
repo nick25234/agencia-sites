@@ -26,7 +26,7 @@ async function buscarSitesDoDia() {
   hoje.setHours(0, 0, 0, 0);
 
   return await supabase(
-    `leads?status=eq.site_gerado&criado_em=gte.${hoje.toISOString()}&order=id.desc&limit=50`
+    `leads?status=eq.site_gerado&site_url=not.is.null&order=id.desc&limit=50`
   );
 }
 
