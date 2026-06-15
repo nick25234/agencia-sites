@@ -130,14 +130,16 @@ async function deployVercel(nome, html) {
     });
     const checkData = await check.json();
     if (checkData.readyState === "READY") {
-      url = checkData.url;
-      break;
-    }
+  url = checkData.alias?.[0] || checkData.url;
+  break;
+}
     tentativas++;
   }
 
-  return { url: `https://${url}`, deployId };
-}
+ const finalUrl = url.includes('axon-growth') 
+  ? url.replace(/-[a-z0-9]+-axon-growth/, '') 
+  : url;
+return { url: `https://${finalUrl}`, deployId };
 
 async function deletarSitesExpirados() {
   // Busca leads expirados com site no Vercel
