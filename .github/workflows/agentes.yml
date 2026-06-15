@@ -2,13 +2,7 @@ name: Agentes Diários — Agência de Sites
 
 on:
   schedule:
-    # Agente 1 — Prospecção: 08h00 BRT (11:00 UTC)
     - cron: '0 11 * * *'
-    # Agente 2 — Geração: 09h00 BRT (12:00 UTC)
-    - cron: '0 12 * * *'
-    # Agente 3 — Relatório: 10h00 BRT (13:00 UTC)
-    - cron: '0 13 * * *'
-  # Permite rodar manualmente pelo GitHub
   workflow_dispatch:
     inputs:
       agente:
@@ -27,8 +21,8 @@ jobs:
     name: 'Agente 1 — Prospecção'
     runs-on: ubuntu-latest
     if: |
-      github.event_name == 'workflow_dispatch' && (github.event.inputs.agente == 'todos' || github.event.inputs.agente == 'prospectar') ||
-      (github.event_name == 'schedule' && github.event.schedule == '0 11 * * *')
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.agente == 'todos' || github.event.inputs.agente == 'prospectar'))
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -46,8 +40,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: agente-prospeccao
     if: |
-      github.event_name == 'workflow_dispatch' && (github.event.inputs.agente == 'todos' || github.event.inputs.agente == 'gerar-sites') ||
-      (github.event_name == 'schedule' && github.event.schedule == '0 12 * * *')
+      always() && needs.agente-prospeccao.result != 'failure' &&
+      (github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.agente == 'todos' || github.event.inputs.agente == 'gerar-sites')))
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -66,8 +61,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: agente-geracao
     if: |
-      github.event_name == 'workflow_dispatch' && (github.event.inputs.agente == 'todos' || github.event.inputs.agente == 'relatorio') ||
-      (github.event_name == 'schedule' && github.event.schedule == '0 13 * * *')
+      always() && needs.agente-geracao.result != 'failure' &&
+      (github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.agente == 'todos' || github.event.inputs.agente == 'relatorio')))
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
