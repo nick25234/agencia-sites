@@ -136,10 +136,13 @@ async function deployVercel(nome, html) {
     tentativas++;
   }
 
- const finalUrl = url.includes('axon-growth') 
-  ? url.replace(/-[a-z0-9]+-axon-growth/, '') 
-  : url;
-return { url: `https://${finalUrl}`, deployId };
+const finalUrl = url.includes('axon-growth') 
+    ? url.replace(/-[a-z0-9]+-axon-growth/, '') 
+    : url;
+  return { url: `https://${finalUrl}`, deployId };
+}
+
+async function deletarSitesExpirados() {
 
 async function deletarSitesExpirados() {
   // Busca leads expirados com site no Vercel
