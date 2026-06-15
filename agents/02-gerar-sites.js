@@ -61,8 +61,8 @@ REGRAS:
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-     model: "claude-sonnet-4-6",
-max_tokens: 6000,
+      model: "claude-sonnet-4-6",
+      max_tokens: 6000,
       messages: [{ role: "user", content: prompt }],
     }),
   });
@@ -130,19 +130,22 @@ async function deployVercel(nome, html) {
     });
     const checkData = await check.json();
     if (checkData.readyState === "READY") {
-  url = checkData.alias?.[0] || checkData.url;
-  break;
-}
+      // Pega o alias de produção (URL pública sem hash)
+      const aliases = checkData.aliases || checkData.alias || [];
+      const producaoUrl = aliases.find(a => !a.includes('vercel.app') === false && !a.includes('-axon-growth')) || aliases[0] || checkData.url;
+      url = producaoUrl || checkData.url;
+      break;
+    }
     tentativas++;
   }
 
-const finalUrl = url.includes('axon-growth') 
-    ? url.replace(/-[a-z0-9]+-axon-growth/, '') 
-    : url;
-  return { url: `https://${finalUrl}`, deployId };
-}
+  // Garante URL pública sem sufixo de conta
+  const finalUrl = url
+    .replace(/-[a-z0-9]+-axon-growth\.vercel\.app$/, '.vercel.app')
+    .replace(/^(?!https?:\/\/)/, '');
 
-async function deletarSitesExpirados() {
+  return { url: finalUrl.startsWith('http') ? finalUrl : `https://${finalUrl}`, deployId };
+}
 
 async function deletarSitesExpirados() {
   // Busca leads expirados com site no Vercel
